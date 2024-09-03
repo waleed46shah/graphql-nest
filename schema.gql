@@ -10,4 +10,14 @@ type Pet {
 
 type Query {
   pets: [Pet!]!
+  getPet(id: Int!): Pet!
+}
+
+type Mutation {
+  createPet(createPetInput: CreatePetInput!): Pet!
+}
+
+input CreatePetInput {
+  name: String!
+  type: String
 }
