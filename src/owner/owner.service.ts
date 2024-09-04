@@ -11,24 +11,29 @@ export class OwnerService {
     @InjectRepository(Owner) private ownersRepository: Repository<Owner>,
   ) {}
 
-  create(createOwnerInput: CreateOwnerInput) {
+  async create(createOwnerInput: CreateOwnerInput) {
     const newOwner = this.ownersRepository.create(createOwnerInput);
     return this.ownersRepository.save(newOwner);
   }
 
-  findAll() {
+  async findAll() {
     return this.ownersRepository.find();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.ownersRepository.findOne({ where: { id: id } });
   }
 
-  update(id: number, updateOwnerInput: UpdateOwnerInput) {
+  async update(id: number, updateOwnerInput: UpdateOwnerInput) {
     return this.ownersRepository.update(id, updateOwnerInput);
   }
 
-  remove(id: number) {
-    return this.ownersRepository.delete(id);
+  async remove(id: number): Promise<Owner> {
+    const owner = await this.ownersRepository.findOne({ where: { id } });
+    if (!owner) {
+      throw new Error('Owner not found');
+    }
+    await this.ownersRepository.delete(id);
+    return owner;
   }
 }

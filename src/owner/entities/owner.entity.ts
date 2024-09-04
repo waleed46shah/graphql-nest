@@ -13,7 +13,10 @@ export class Owner {
   @Field()
   name: string;
 
-  @OneToMany(() => Pet, (pet) => pet.owner)
+  @OneToMany(() => Pet, (pet) => pet.owner, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @Field((type) => [Pet], { nullable: true })
   pets?: Pet[];
 }
