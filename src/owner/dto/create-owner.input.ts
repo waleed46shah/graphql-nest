@@ -1,7 +1,9 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsAlpha } from 'class-validator';
 
 @InputType()
 export class CreateOwnerInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @IsAlpha()
+  @Field()
+  name: string;
 }
