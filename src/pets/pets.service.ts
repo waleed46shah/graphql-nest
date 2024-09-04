@@ -31,8 +31,22 @@ export class PetsService {
     return this.ownersService.findOne(ownerId);
   }
 
-  async updatePet(id: number, name: string, type?: string): Promise<Pet> {
-    await this.petsRepository.update(id, { name, type });
+  async deletePet(id: number): Promise<Pet> {
+    const pet = await this.petsRepository.findOne({ where: { id: id } });
+    if (!pet) {
+      throw new Error(`Pet with id ${id} not found`);
+    }
+    await this.petsRepository.delete(id);
+    return pet;
+  }
+
+  async updatePet(
+    id: number,
+    name: string,
+    type?: string,
+    ownerId?: number,
+  ): Promise<Pet> {
+    await this.petsRepository.update(id, { name, type, ownerId });
     return this.petsRepository.findOne({ where: { id: id } });
   }
 }

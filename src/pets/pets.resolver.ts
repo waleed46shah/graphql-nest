@@ -33,8 +33,14 @@ export class PetsResolver {
     @Args('id', { type: () => Int }) id: number,
     @Args('name') name: string,
     @Args('type', { nullable: true }) type?: string,
+    @Args('ownerId', { type: () => Int }) ownerId?: number,
   ): Promise<Pet> {
-    return this.petsService.updatePet(id, name, type);
+    return this.petsService.updatePet(id, name, type, ownerId);
+  }
+
+  @Mutation(() => Pet)
+  deletePet(@Args('id', { type: () => Int }) id: number): Promise<Pet> {
+    return this.petsService.deletePet(id);
   }
 
   @Query((returns) => Pet)
